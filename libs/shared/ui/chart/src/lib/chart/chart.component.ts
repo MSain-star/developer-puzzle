@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 })
 export class ChartComponent implements OnInit {
   @Input() data$: Observable<any>;
+  @Input() fromDate: Date;
+  @Input() toDate: Date;
   chartData: any;
 
   chart: {
@@ -21,9 +23,16 @@ export class ChartComponent implements OnInit {
     type: string;
     data: any;
     columnNames: string[];
-    options: any;
+    options: { title: `Stock price`, width: '600', height: '400' }
   };
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) { }
+
+  filterData = (element, index, array): void => {
+    const dateVal: Date = new Date(element[0]);
+    if (new Date(this.fromDate) <= dateVal && new Date(this.toDate) >= dateVal) {
+      this.chartData.push(element);
+    }
+  };
 
   ngOnInit() {
     this.chart = {
@@ -34,6 +43,9 @@ export class ChartComponent implements OnInit {
       options: { title: `Stock price`, width: '600', height: '400' }
     };
 
-    this.data$.subscribe(newData => (this.chartData = newData));
+    this.data$.subscribe(newData => {
+      this.chartData = [];
+      newData.some(this.filterData);
+    });
   }
 }
