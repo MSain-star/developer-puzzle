@@ -5,6 +5,7 @@
       placeholder="Symbol e.g AAPL"
       formControlName="symbol"
       value=""
+      tabindex="0"
     />
     <mat-error
       ><span
@@ -23,13 +24,14 @@
       <mat-option
         *ngFor="let timePeriod of timePeriods"
         [value]="timePeriod.value"
+        tabindex="0"
       >
         {{ timePeriod.viewValue }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button (click)="fetchQuote()" mat-raised-button>Go</button>
+  <button (click)="fetchQuote()" mat-raised-button tabindex="0">Go</button>
 </form>
 
 <coding-challenge-chart [data$]="quotes$"></coding-challenge-chart>
