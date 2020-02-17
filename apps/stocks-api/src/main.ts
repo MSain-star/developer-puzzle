@@ -34,7 +34,7 @@ const init = async () => {
     options: {
       cache: {
         expiresIn: 5 * 60 * 1000,
-        generateTimeout: 3000
+        generateTimeout: 5000
       }
     }
   });
