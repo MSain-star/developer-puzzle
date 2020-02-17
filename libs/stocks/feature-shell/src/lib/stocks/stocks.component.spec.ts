@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StocksComponent } from './stocks.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { 
-  StocksDataAccessPriceQueryModule, PriceQueryFacade
+  PriceQueryFacade
   } from '@coding-challenge/stocks/data-access-price-query';
-import { MatButtonModule, MatSelectModule, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatSelectModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedUiChartModule } from '@coding-challenge/shared/ui/chart';
 import { of } from 'rxjs';

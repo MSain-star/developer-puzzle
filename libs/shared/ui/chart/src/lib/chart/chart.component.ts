@@ -7,7 +7,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { takeWhile, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'coding-challenge-chart',
   templateUrl: './chart.component.html',
@@ -24,7 +24,7 @@ export class ChartComponent implements OnInit, OnDestroy {
     columnNames: string[];
     options: any;
   };
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.chart = {
@@ -35,11 +35,13 @@ export class ChartComponent implements OnInit, OnDestroy {
       options: { title: `Stock price`, width: '600', height: '400' }
     };
 
-    this.data$.pipe(takeUntil(this.unsubscribe$)).
-    subscribe(newData => (this.chartData = newData));
+    this.data$.pipe(takeUntil(this.unsubscribe$))
+    .subscribe(newData => {
+      this.chartData = newData;
+      });
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
