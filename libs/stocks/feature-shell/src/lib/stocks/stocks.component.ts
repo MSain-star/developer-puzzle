@@ -16,18 +16,8 @@ export class StocksComponent implements OnInit {
   fromDate: Date;
   toDate: Date;
   maxDate = new Date();
-  quotes$ = this.priceQuery.priceQueries$;
 
-  timePeriods = [
-    { viewValue: 'All available data', value: 'max' },
-    { viewValue: 'Five years', value: '5y' },
-    { viewValue: 'Two years', value: '2y' },
-    { viewValue: 'One year', value: '1y' },
-    { viewValue: 'Year-to-date', value: 'ytd' },
-    { viewValue: 'Six months', value: '6m' },
-    { viewValue: 'Three months', value: '3m' },
-    { viewValue: 'One month', value: '1m' }
-  ];
+  quotes$ = this.priceQuery.priceQueries$;
 
   constructor(private fb: FormBuilder, private priceQuery: PriceQueryFacade) {
     this.stockPickerForm = fb.group({
@@ -41,8 +31,8 @@ export class StocksComponent implements OnInit {
 
   fetchQuote() {
     if (this.stockPickerForm.valid) {
-      const { symbol, period } = this.stockPickerForm.value;
-      this.priceQuery.fetchQuote(symbol, this.calculatePeriod());
+      const { symbol, fromDate, toDate } = this.stockPickerForm.value;
+      this.priceQuery.fetchQuote(symbol, fromDate, toDate);
     }
   }
 
@@ -61,31 +51,5 @@ export class StocksComponent implements OnInit {
         );
       }
     }
-  };
-
-  calculatePeriod = (): string => {
-    let period = '1m';
-    const diff = Math.abs(
-      this.stockPickerForm.value.fromDate - this.stockPickerForm.value.toDate
-    );
-    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-    if (diffDays <= 30) {
-      period = '1m';
-    } else if (diffDays <= 90 && diffDays > 30) {
-      period = '3m';
-    } else if (diffDays <= 180 && diffDays > 90) {
-      period = '6m';
-    } else if (diffDays < 365 && diffDays > 180) {
-      period = 'ytd';
-    } else if (diffDays === 365) {
-      period = '1y';
-    } else if (diffDays <= 2 * 365 && diffDays > 365) {
-      period = '2y';
-    } else if (diffDays <= 5 * 365 && diffDays > 2 * 365) {
-      period = '5y';
-    } else {
-      period = 'max';
-    }
-    return period.toString();
   };
 }
