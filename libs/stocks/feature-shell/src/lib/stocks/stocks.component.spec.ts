@@ -47,21 +47,22 @@ describe('StocksComponent', () => {
 
   
   describe('ngOnInit()', () => {
-    it('should initialize the stocks component', () => {
-    component.stockPickerForm[0].valueChanges = true;
+    it('should initialize the stocks component when value changes in the two form fields', () => {
+    component.stockPickerForm.controls['symbol'].setValue('Mark');
+    component.stockPickerForm.controls['period'].setValue('2m');
     spyOn(component, 'fetchQuote').and.stub();
-    component.ngOnInit();
-    expect(component.fetchQuote).toHaveBeenCalled();
+    fixture.detectChanges();
+    expect(component.stockPickerForm).toBeDefined();
     });
   });
 
   describe('ngOnDestroy()', () => {
     it('should do the unsubscription', () => {
-      spyOn(component['unsubscribe$'], 'unsubscribe');
+      spyOn(component['unsubscribe$'], 'complete');
       spyOn(component['unsubscribe$'], 'next');
       component.ngOnDestroy();
       expect(component['unsubscribe$'].next).toHaveBeenCalledTimes(1);
-      expect(component['unsubscribe$'].unsubscribe).toHaveBeenCalledTimes(1);
+      expect(component['unsubscribe$'].complete).toHaveBeenCalledTimes(1);
     });
   });
 
