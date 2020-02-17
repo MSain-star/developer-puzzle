@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -26,7 +25,7 @@ export class ChartComponent implements OnInit, OnDestroy {
     columnNames: string[];
     options: { title: `Stock price`, width: '600', height: '400' }
   };
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit() {
     this.chart = {
