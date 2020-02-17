@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
@@ -15,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ChartComponent implements OnInit, OnDestroy {
   @Input() data$: Observable<any>;
-  chartData: any;
+  public chartData: any;
   private unsubscribe$: Subject<void> = new Subject<void>();
 
   chart: {
@@ -25,8 +24,12 @@ export class ChartComponent implements OnInit, OnDestroy {
     columnNames: string[];
     options: any;
   };
+
   constructor() {}
 
+  /**
+   * Initialize the chart component and subscription of chartData
+   */
   public ngOnInit(): void {
     this.chart = {
       title: '',
@@ -35,11 +38,13 @@ export class ChartComponent implements OnInit, OnDestroy {
       columnNames: ['period', 'close'],
       options: { title: `Stock price`, width: '600', height: '400' }
     };
-
     this.data$.pipe(takeUntil(this.unsubscribe$)).
     subscribe(newData => (this.chartData = newData));
   }
-
+  
+  /**
+   * To unsubscribe the subscription
+   */
   public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
