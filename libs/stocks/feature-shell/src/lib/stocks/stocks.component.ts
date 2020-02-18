@@ -10,9 +10,9 @@ import { MatDatepickerInputEvent } from '@angular/material';
   styleUrls: ['./stocks.component.css']
 })
 export class StocksComponent implements OnInit {
+  private period: string;
   public stockPickerForm: FormGroup;
   public symbol: string;
-  public period: string;
   public fromDate: Date;
   public toDate: Date;
   public maxDate = new Date();
