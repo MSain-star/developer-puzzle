@@ -22,6 +22,8 @@ export class PriceQueryEffects {
     PriceQueryActionTypes.FetchPriceQuery,
     {
       run: (action: FetchPriceQuery, state: PriceQueryPartialState) => {
+        const minDate = action.fromDate.getTime();
+        const maxDate = action.toDate.getTime();
         return this.httpClient
           .get(
             `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${
@@ -32,8 +34,6 @@ export class PriceQueryEffects {
             map((resp: PriceQueryResponse[]) =>
             resp.filter(priceQuery => {
                 const respDate = new Date(priceQuery.date + ' 0:0:0');
-                const minDate = action.fromDate.getTime();
-                const maxDate = action.toDate.getTime();
                 return (respDate.getTime() >= minDate && respDate.getTime() <= maxDate)
               })), switchMap(resp => {
                 return [
