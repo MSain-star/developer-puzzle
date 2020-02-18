@@ -10,12 +10,12 @@ import { MatDatepickerInputEvent } from '@angular/material';
   styleUrls: ['./stocks.component.css']
 })
 export class StocksComponent implements OnInit {
-  stockPickerForm: FormGroup;
-  symbol: string;
-  period: string;
-  fromDate: Date;
-  toDate: Date;
-  maxDate = new Date();
+  public stockPickerForm: FormGroup;
+  public symbol: string;
+  public period: string;
+  public fromDate: Date;
+  public toDate: Date;
+  public maxDate = new Date();
 
   quotes$ = this.priceQuery.priceQueries$;
 
@@ -29,7 +29,7 @@ export class StocksComponent implements OnInit {
 
   ngOnInit() {}
 
-  fetchQuote() {
+  public fetchQuote(): void {
     if (this.stockPickerForm.valid) {
       const { symbol, fromDate, toDate } = this.stockPickerForm.value;
       this.priceQuery.fetchQuote(symbol, fromDate, toDate);
@@ -37,7 +37,7 @@ export class StocksComponent implements OnInit {
   }
 
   
-  validation = (type: string, event: MatDatepickerInputEvent<Date>): void => {
+  public validation = (type: string, event: MatDatepickerInputEvent<Date>): void => {
     if (type === 'from') {
       if (new Date(event.value) > this.stockPickerForm.value.toDate) {
         this.stockPickerForm.controls.fromDate.setValue(
