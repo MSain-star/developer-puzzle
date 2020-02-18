@@ -8,13 +8,16 @@ import { PriceQueryFacade } from '@coding-challenge/stocks/data-access-price-que
   styleUrls: ['./stocks.component.css']
 })
 export class StocksComponent implements OnInit {
-  stockPickerForm: FormGroup;
-  symbol: string;
-  period: string;
+  public stockPickerForm: FormGroup;
+  public symbol: string;
+  public period: string;
 
-  quotes$ = this.priceQuery.priceQueries$;
+  public quotes$ = this.priceQuery.priceQueries$;
 
-  timePeriods = [
+  /**
+   * Stock time periods values
+   */
+  public timePeriods = [
     { viewValue: 'All available data', value: 'max' },
     { viewValue: 'Five years', value: '5y' },
     { viewValue: 'Two years', value: '2y' },
@@ -34,7 +37,10 @@ export class StocksComponent implements OnInit {
 
   ngOnInit() {}
 
-  fetchQuote() {
+  /**
+   * Fetch the stock result as per the entered symbol and  selected period
+   */
+  public fetchQuote(): void {
     if (this.stockPickerForm.valid) {
       const { symbol, period } = this.stockPickerForm.value;
       this.priceQuery.fetchQuote(symbol, period);

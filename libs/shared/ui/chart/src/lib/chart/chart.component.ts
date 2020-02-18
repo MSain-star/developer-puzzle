@@ -17,7 +17,7 @@ export class ChartComponent implements OnInit, OnDestroy {
   public chartData: any;
   private unsubscribe$: Subject<void> = new Subject<void>();
 
-  chart: {
+  public chart: {
     title: string;
     type: string;
     data: any;
