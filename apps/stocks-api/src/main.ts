@@ -18,6 +18,11 @@ const init = async () => {
     }
   });
 
+  const error = {
+    code: 404,
+    message: "An error has occurred.Please try again !!"
+  }
+
   await server.register(H2o2);
 
   const fetchQueryData = async (symbol, period) => {
@@ -28,17 +33,23 @@ const init = async () => {
     return result;
   };
 
+  /**
+   * Setting the cache options for the query data
+   */
   server.method({
     name: 'fetchQueryData',
     method: fetchQueryData,
     options: {
       cache: {
-        expiresIn: 5 * 60 * 1000,
+        expiresIn: 2 * 60 * 1000,
         generateTimeout: 5000
       }
     }
   });
 
+  /**
+   * Method to get the cached query data for the stock
+   */
   server.route({
     method: 'GET',
     path: '/beta/stock/{symbol}/chart/{period}',
@@ -47,6 +58,9 @@ const init = async () => {
     }
   });
 
+  /**
+   * Handle the actual API call to get the stock chart data
+   */
   server.route({
     method: 'GET',
     path: '/proxy/stock/{symbol}/chart/{period}',
@@ -61,11 +75,14 @@ const init = async () => {
     }
   });
 
+  /**
+   * Handle the error scenario of the API route path
+   */
   server.route({
     method: '*',
     path: '/{any*}',
     handler: (request, h) => {
-      return '404 Error! Page Not Found!';
+      return error;
     }
   });
 
